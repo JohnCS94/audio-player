@@ -72,13 +72,13 @@ const Player = ({ setAnalyzerData, song, setSong }) => {
   };
 
   const forward = () => {
-    if (song == songs.length - 1) setSong(0);
+    if (song === songs.length - 1) setSong(0);
     else setSong(song + 1);
   };
 
   useEffect(() => {
     muted ? (audioRef.current.volume = 0) : (audioRef.current.volume = volume);
-  }, [muted]);
+  }, [muted, volume]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -100,6 +100,7 @@ const Player = ({ setAnalyzerData, song, setSong }) => {
         audioElement.removeEventListener("ended", handleAudioEnded);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [song]);
 
   useEffect(() => {
@@ -113,7 +114,12 @@ const Player = ({ setAnalyzerData, song, setSong }) => {
   return (
     <div className="player">
       <div className="album-image">
-        <img src={songs[song].image} width={"100%"} height={"100%"} />
+        <img
+          src={songs[song].image}
+          width={"100%"}
+          height={"100%"}
+          alt={songs[song].album}
+        />
       </div>
       <div className="title">{songs[song].title}</div>
       <div className="album">{songs[song].album}</div>

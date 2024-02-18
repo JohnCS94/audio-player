@@ -50,8 +50,6 @@ const Visualizer = ({ analyzerData }) => {
   };
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-
     const animate = () => {
       animationRef.current = requestAnimationFrame(animate);
       draw(dataArray, analyzer, bufferLength);

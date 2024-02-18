@@ -9,13 +9,18 @@ const Album = ({ song, setSong }) => {
   return (
     <>
       <div className="album-image-back">
-        <img src={songs[song].image} width={"100%"} height={"100%"} />
+        <img
+          src={songs[song].image}
+          width={"100%"}
+          height={"100%"}
+          alt={playing.album}
+        />
       </div>
       <div className="album-title">{playing.album}</div>
       <div className="album-artist">{playing.artist}</div>
       <div className="album-songs-container ">
         {sameAlbum.map((sa) => {
-          const isPlaying = playing.id == sa.id;
+          const isPlaying = playing.id === sa.id;
           return (
             <div
               className="track"
