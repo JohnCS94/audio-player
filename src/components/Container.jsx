@@ -7,17 +7,23 @@ import Player from "./Player";
 import Album from "./Album";
 
 const Wrapper = ({ children, flipped, setFlipped }) => {
-  const toggleFlipped = (page) => setFlipped(!flipped);
+  const toggleFlipped = () => setFlipped(!flipped);
+  const iconSX = { color: "white", margin: 2 };
 
   return (
     <div className="container">
       <div className="header">
-        <IconButton onClick={toggleFlipped}>
-          <ArrowBackIos sx={{ color: "white", margin: 2 }} />
-        </IconButton>
-        <IconButton onClick={toggleFlipped}>
-          <Menu sx={{ color: "white", margin: 2 }} />
-        </IconButton>
+        {flipped ? (
+          <IconButton onClick={toggleFlipped}>
+            <ArrowBackIos sx={iconSX} />
+          </IconButton>
+        ) : (
+          <div className="menu">
+            <IconButton onClick={toggleFlipped}>
+              <Menu sx={iconSX} />
+            </IconButton>
+          </div>
+        )}
       </div>
       {children}
     </div>

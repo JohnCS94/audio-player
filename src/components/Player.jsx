@@ -31,6 +31,21 @@ const Player = ({ setAnalyzerData, album, song, setSong }) => {
   const buttonSX = { background: "#1e304a", marginX: 2 };
   const iconSX = { color: "white", fontSize: 25 };
 
+  const initVisualizer = () => {
+    let audioCtx = new AudioContext();
+    if (!source.current) {
+      source.current = audioCtx.createMediaElementSource(audioRef.current);
+      analyzer.current = audioCtx.createAnalyser();
+      source.current.connect(analyzer.current);
+      analyzer.current.connect(audioCtx.destination);
+
+      const bufferLength = analyzer.current.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      setAnalyzerData({ analyzer: analyzer.current, bufferLength, dataArray });
+    }
+  };
+
   const handleSeek = (e) => {
     setTime(e.target.value);
     audioRef.current.currentTime = e.target.value;
@@ -49,19 +64,7 @@ const Player = ({ setAnalyzerData, album, song, setSong }) => {
     if (isPlaying) audioRef.current.pause();
     else audioRef.current.play();
     setIsPlaying(!isPlaying);
-
-    let audioCtx = new AudioContext();
-    if (!source.current) {
-      source.current = audioCtx.createMediaElementSource(audioRef.current);
-      analyzer.current = audioCtx.createAnalyser();
-      source.current.connect(analyzer.current);
-      analyzer.current.connect(audioCtx.destination);
-
-      const bufferLength = analyzer.current.frequencyBinCount;
-      const dataArray = new Uint8Array(bufferLength);
-
-      setAnalyzerData({ analyzer: analyzer.current, bufferLength, dataArray });
-    }
+    initVisualizer();
   };
 
   const toggleMuted = () => setMuted(!muted);
@@ -69,11 +72,13 @@ const Player = ({ setAnalyzerData, album, song, setSong }) => {
   const back = () => {
     if (song === 0) setSong(albums[album].tracks.length - 1);
     else setSong(song - 1);
+    initVisualizer();
   };
 
   const forward = () => {
     if (song === albums[album].tracks.length - 1) setSong(0);
     else setSong(song + 1);
+    initVisualizer();
   };
 
   useEffect(() => {
@@ -110,6 +115,11 @@ const Player = ({ setAnalyzerData, album, song, setSong }) => {
       });
     }
   }, [song, album]);
+
+  useEffect(() => {
+    if (!audioRef.current.paused) setIsPlaying(true);
+    else setIsPlaying(false);
+  }, [audioRef.current?.paused]);
 
   return (
     <div className="player">
