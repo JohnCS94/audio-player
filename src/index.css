@@ -184,6 +184,7 @@ code {
   padding: 8px;
   width: 100%;
   overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 .track {
