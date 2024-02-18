@@ -7,7 +7,8 @@ import Player from "./Player";
 import Album from "./Album";
 
 const Wrapper = ({ children, flipped, setFlipped }) => {
-  const toggleFlipped = () => setFlipped(!flipped);
+  const toggleFlipped = (page) => setFlipped(!flipped);
+
   return (
     <div className="container">
       <div className="header">
@@ -25,19 +26,27 @@ const Wrapper = ({ children, flipped, setFlipped }) => {
 
 const Container = ({ setAnalyzerData }) => {
   const [flipped, setFlipped] = useState(false);
+  const [album, setAlbum] = useState(0);
   const [song, setSong] = useState(0);
+
   return (
     <ReactCardFlip isFlipped={flipped}>
       <Wrapper flipped={flipped} setFlipped={setFlipped}>
         <Player
           setAnalyzerData={setAnalyzerData}
+          album={album}
           song={song}
           setSong={setSong}
         />
       </Wrapper>
 
       <Wrapper flipped={flipped} setFlipped={setFlipped}>
-        <Album song={song} setSong={setSong} />
+        <Album
+          album={album}
+          setAlbum={setAlbum}
+          song={song}
+          setSong={setSong}
+        />
       </Wrapper>
     </ReactCardFlip>
   );

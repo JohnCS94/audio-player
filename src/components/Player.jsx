@@ -11,7 +11,7 @@ import {
 } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 
-import { songs } from "./constants";
+import { albums } from "./constants";
 
 const Volume = ({ volume, sx }) => {
   if (volume > 0.7) return <VolumeUp sx={sx} />;
@@ -19,7 +19,7 @@ const Volume = ({ volume, sx }) => {
   else return <VolumeMute sx={sx} />;
 };
 
-const Player = ({ setAnalyzerData, song, setSong }) => {
+const Player = ({ setAnalyzerData, album, song, setSong }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState(0);
   const [volume, setVolume] = useState(1);
@@ -67,12 +67,12 @@ const Player = ({ setAnalyzerData, song, setSong }) => {
   const toggleMuted = () => setMuted(!muted);
 
   const back = () => {
-    if (0) setSong(songs.length - 1);
+    if (song === 0) setSong(albums[album].tracks.length - 1);
     else setSong(song - 1);
   };
 
   const forward = () => {
-    if (song === songs.length - 1) setSong(0);
+    if (song === albums[album].tracks.length - 1) setSong(0);
     else setSong(song + 1);
   };
 
@@ -84,7 +84,7 @@ const Player = ({ setAnalyzerData, song, setSong }) => {
     const audioElement = audioRef.current;
 
     const handleAudioEnded = () => {
-      if (song + 1 < songs.length) {
+      if (song + 1 < albums[album].tracks.length) {
         setSong(song + 1);
       } else {
         setSong(0);
@@ -109,24 +109,24 @@ const Player = ({ setAnalyzerData, song, setSong }) => {
         console.error("Error playing audio:", error);
       });
     }
-  }, [song]);
+  }, [song, album]);
 
   return (
     <div className="player">
       <div className="album-image">
         <img
-          src={songs[song].image}
+          src={albums[album].image}
           width={"100%"}
           height={"100%"}
-          alt={songs[song].album}
+          alt={albums[album].name}
         />
       </div>
-      <div className="title">{songs[song].title}</div>
-      <div className="album">{songs[song].album}</div>
-      <div className="artist">{songs[song].artist}</div>
+      <div className="title">{albums[album].tracks[song].title}</div>
+      <div className="album">{albums[album].name}</div>
+      <div className="artist">{albums[album].artist}</div>
       <audio
         ref={audioRef}
-        src={songs[song].src}
+        src={albums[album].tracks[song].src}
         onTimeUpdate={handleTimeUpdate}
       />
       <input

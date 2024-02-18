@@ -178,6 +178,7 @@ code {
   gap: 10px;
   padding: 8px;
   width: 100%;
+  overflow-y: scroll;
 }
 
 .track {
@@ -197,7 +198,7 @@ code {
   font-size: 18px;
   font-weight: 700;
   margin: 2px;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .album-artist {
@@ -205,4 +206,22 @@ code {
   font-weight: 100;
   margin-top: 8px;
   margin-bottom: 10px;
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
 }
