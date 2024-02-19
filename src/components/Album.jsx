@@ -50,7 +50,11 @@ const Album = ({ album, setAlbum, song, setSong }) => {
         </Swiper>
       </div>
       <div className="album-title">{albums[activeAlbum].name}</div>
-      <div className="album-artist">{albums[activeAlbum].artist}</div>
+      <div className="text-with-line-around">
+        <div className="line" />
+        <div className="album-artist">{albums[activeAlbum].artist}</div>
+        <div className="line" />
+      </div>
       <div className="album-songs-container ">
         {albums[activeAlbum].tracks.map((t, index) => {
           const isPlaying = () => {
